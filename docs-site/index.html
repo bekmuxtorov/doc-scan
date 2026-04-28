@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doc-Scan API | Integratsiya Hujjati</title>
+    <meta name="description" content="AI-Word-Scan API uchun to'liq va professional integratsiya qo'llanmasi.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Prism.js for code formatting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    
+    <!-- Subtle Background Animation elements -->
+    <div class="bg-blur circle-1"></div>
+    <div class="bg-blur circle-2"></div>
+
+    <nav class="sidebar">
+        <div class="logo">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z" stroke="url(#paint0_linear)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M14 2V8H20" stroke="url(#paint0_linear)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 13H8" stroke="#a3b4cc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 17H8" stroke="#a3b4cc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10 9H8" stroke="#a3b4cc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <defs>
+                    <linearGradient id="paint0_linear" x1="4" y1="2" x2="20" y2="22" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#4F46E5" />
+                        <stop offset="1" stop-color="#06B6D4" />
+                    </linearGradient>
+                </defs>
+            </svg>
+            <span>Doc-Scan API</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#intro" class="active">Asosiy ma'lumotlar</a></li>
+            <li><a href="#endpoints">API Endpointlar</a></li>
+            <li><a href="#errors">Xatoliklar (Errors)</a></li>
+            <li><a href="#examples">Integratsiya misollari</a></li>
+            <li><a href="#important">Muhim jihatlar</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            v1.0.0. Hujjat turi: Ochiq API
+        </div>
+    </nav>
+
+    <main class="content-wrapper">
+        <header class="hero">
+            <div class="badge">Dasturchilar uchun maxsus</div>
+            <h1>API Integratsiya Qo'llanmasi</h1>
+            <p>Word hujjatlaridan samarali ravishda solishtirish va o'xshashlik foizini hisoblash uchun Doc-Scan API yordamida ilovangizni modernizatsiya qiling.</p>
+        </header>
+
+        <div class="content">
+            <section id="intro" class="doc-section fade-in">
+                <h2>1. Asosiy Ma'lumotlar</h2>
+                <p>Ushbu hujjat API bilan frontend va boshqa mikrosevislarni ulanishini tushuntiradi. API hujjat ichidagi matnni `s2` dagi matn bilan bog'liqlik kuchi orqali topib, tahlil qilib beradi.</p>
+                
+                <div class="cards-grid">
+                    <div class="card glass">
+                        <div class="card-icon blue">🔗</div>
+                        <h3>Base URL (Lokal)</h3>
+                        <code>http://localhost:8000</code>
+                    </div>
+                    <div class="card glass">
+                        <div class="card-icon green">🌍</div>
+                        <h3>Base URL (Server)</h3>
+                        <code>https://scan.ekomplektasiya.uz</code>
+                    </div>
+                    <div class="card glass">
+                        <div class="card-icon purple">📘</div>
+                        <h3>Swagger / ReDoc</h3>
+                        <code>/docs</code> yoki <code>/redoc</code>
+                    </div>
+                </div>
+
+                <div class="alert tip">
+                    <strong>Maslahat:</strong> API serverga yuklanganida, brauzer orqali uning bevosita holatini kuzatish uchun Swagger UI (/docs) ga o'ting.
+                </div>
+            </section>
+
+            <div class="divider"></div>
+
+            <section id="endpoints" class="doc-section fade-in">
+                <h2>2. Hujjatni Tahlil Qilish Endpoint'i</h2>
+                <p>Ushbu endpoint hujjatdagi "Xaridlar maqsadi" qismini tortib oladi va uni `s2` nomli parametr sifatida yuborilgan tartiblangan qatorlar bilan taqqoslaydi.</p>
+
+                <div class="endpoint-block">
+                    <span class="method post">POST</span>
+                    <span class="url">/analyze</span>
+                </div>
+
+                <h3>So'rov (Request) parametrlari</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Parametr nomi</th>
+                                <th>Turi</th>
+                                <th>Majburiymi?</th>
+                                <th>Ta'rifi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>file</code></td>
+                                <td><span class="tag">File</span> (.docx, .doc)</td>
+                                <td><span class="status yes">Ha</span></td>
+                                <td>Tahlil qilinishi kerak bo'lgan Word hujjati.</td>
+                            </tr>
+                            <tr>
+                                <td><code>s2</code></td>
+                                <td><span class="tag">String</span></td>
+                                <td><span class="status yes">Ha</span></td>
+                                <td>Solishtirish uchun ro'yxat tartibida shakllangan matn (Masalan: `1. M400 sement...`)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Muvaffaqiyatli Javob (200 OK)</h3>
+                <p>Tizim ishlab bo'lgach muvaffaqiyatli natijani shunday shaklda qaytaradi:</p>
+                <div class="code-wrapper">
+                    <button class="copy-btn">Nusxa olish</button>
+                    <pre><code class="language-json">{
+  "status_code": 200,
+  "error": "",
+  "results": [
+    {
+      "row": 1,
+      "s1": "1. Payvandlash qurilmasi uchun (Kabil) - 200 п/м",
+      "s2": "1. Payvandlash qurilmasi uchun (Kabil) Проволка сварочная - 200 п/м",
+      "concurrence": "98.50"
+    },
+    {
+      "row": 2,
+      "s1": "MOS RAQAMLI BAND TOPILMADI (S1 da yo'q)",
+      "s2": "2. Avtogen shlangi шланг для автогена - 200 п/м",
+      "concurrence": "0.00"
+    }
+  ]
+}</code></pre>
+                </div>
+                <ul class="features-list">
+                    <li><code>s1</code> - Word fayldan topilgan qator.</li>
+                    <li><code>s2</code> - Foydalanuvchi qidirayotgan qator.</li>
+                    <li><code>concurrence</code> - Matematik o'xshashlik foizi string ko'rinishida (Masalan "98.50").</li>
+                </ul>
+            </section>
+
+            <div class="divider"></div>
+
+            <section id="errors" class="doc-section fade-in">
+                <h2>3. Xatoliklar (Error Handling)</h2>
+                <p>Agar ma'lumot topilmasa yoki tizim xatosi yuz bersa, API `error` string bandi orqali xatolikni aytadi.</p>
+
+                <div class="error-grid">
+                    <div class="error-card">
+                        <div class="error-header">
+                            <span class="code">400</span> Bad Request
+                        </div>
+                        <p>Fayl yoki matnda tegishli <code>1., 2.</code> ko'rinishidagi ro'yxat tizimi topilmaganda ro'y beradi.</p>
+                    </div>
+                    <div class="error-card">
+                        <div class="error-header">
+                            <span class="code">404</span> Not Found
+                        </div>
+                        <p>"Xaridlar maqsadi" so'zi Word hujjatingizdan mutlaqo topilmaganda ro'y beradi.</p>
+                    </div>
+                    <div class="error-card">
+                        <div class="error-header">
+                            <span class="code">500</span> Server Error
+                        </div>
+                        <p>O'qish jarayoni vaqtida yuzaga keladigan server xatoligi bo'yicha.</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="divider"></div>
+
+            <section id="examples" class="doc-section fade-in">
+                <h2>4. Integratsiya Misollari</h2>
+
+                <div class="tabs">
+                    <div class="tab-buttons">
+                        <button class="tab-btn active" data-target="js-code">JavaScript (Fetch API)</button>
+                        <button class="tab-btn" data-target="py-code">Python (Requests)</button>
+                        <button class="tab-btn" data-target="curl-code">Terminal (cURL)</button>
+                    </div>
+                    
+                    <div class="tab-content active" id="js-code">
+                        <p>React/Vue yoki toza JavaScript loyihalari uchun:</p>
+                        <div class="code-wrapper">
+                            <button class="copy-btn">Nusxa olish</button>
+                            <pre><code class="language-javascript">async function analyzeDocument(file, s2Text) {
+    const formData = new FormData();
+    formData.append("file", file); // DOM dagi input.files[0]
+    formData.append("s2", s2Text); // String matni
+
+    try {
+        const response = await fetch("http://localhost:8000/analyze", {
+            method: "POST",
+            body: formData,
+        });
+
+        const data = await response.json();
+
+        if (data.status_code === 200) {
+            console.log("Topilgan ma'lumotlar:", data.results);
+        } else {
+            console.error("Xatolik xabari:", data.error);
+        }
+    } catch (error) {
+        console.error("Tarmoq xatoligi:", error);
+    }
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="py-code">
+                        <p>Boshqa bir Django yoki FastAPI loyihalari orqali murojaat qilish:</p>
+                        <div class="code-wrapper">
+                            <button class="copy-btn">Nusxa olish</button>
+                            <pre><code class="language-python">import requests
+
+url = "http://localhost:8000/analyze"
+file_path = "document.docx"
+s2_text = "1. M400 sement \n 2. Temir plita"
+
+with open(file_path, "rb") as f:
+    response = requests.post(
+        url, 
+        files={"file": f}, 
+        data={"s2": s2_text}
+    )
+    
+    result = response.json()
+    if result["status_code"] == 200:
+        for row in result["results"]:
+            print(f"{row['row']}. {row['concurrence']}% o'xshash")
+    else:
+        print("Xatolik:", result["error"])</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="curl-code">
+                        <p>Server terminalidan to'g'ridan to'g'ri test qilib ko'rish:</p>
+                        <div class="code-wrapper">
+                            <button class="copy-btn">Nusxa olish</button>
+                            <pre><code class="language-bash">curl -X 'POST' \
+  'http://localhost:8000/analyze' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: multipart/form-data' \
+  -F 'file=@hujjat.docx;type=application/vnd.openxmlformats-officedocument.wordprocessingml.document' \
+  -F 's2=1. Payvandlash qurilmasi uchun'</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="divider"></div>
+
+            <section id="important" class="doc-section fade-in">
+                <h2>5. Muhim Jihatlar</h2>
+                <div class="alert warning">
+                    <strong>Muhim:</strong> AI modeli (SentenceTransformers) so'rovni tahlil qilish uchun ko'proq vaqt talab qiladi. Integratsiya vaqtida foydalanuvchi interfeysida albatta Loader yoki Spinner ko'rsating!
+                </div>
+                
+                <ul class="features-list">
+                    <li><strong>Cors Politikasi:</strong> CORS muammosi bo'lmasligi uchun barcha so'rovlar (`allow_origins=["*"]`) ochilgan.</li>
+                    <li><strong>Raqamli Matn:</strong> Word fayli va <code>s2</code> dagi barcha izlanadigan qatorda qat'iyan <code>1. </code> kabi tartib raqami kiriting. Aks holda API bandlarni izolyatsiya qilolmaydi.</li>
+                </ul>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Prism.js Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+
+    <script>
+        // Smooth scrolling for sidebar links
+        document.querySelectorAll('.nav-links a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetEl = document.getElementById(targetId);
+                window.scrollTo({
+                    top: targetEl.offsetTop - 40,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Current active state on scroll
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const sections = document.querySelectorAll('.doc-section');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            sections.forEach(sec => {
+                const secTop = sec.offsetTop;
+                if (scrollY >= secTop - 60) {
+                    current = sec.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Copy button logic
+        document.querySelectorAll('.copy-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const codeNode = btn.nextElementSibling.querySelector('code');
+                navigator.clipboard.writeText(codeNode.textContent).then(() => {
+                    btn.innerHTML = 'Nusxa olindi!';
+                    btn.classList.add('copied');
+                    setTimeout(() => {
+                        btn.innerHTML = 'Nusxa olish';
+                        btn.classList.remove('copied');
+                    }, 2000);
+                });
+            });
+        });
+
+        // Tabs functionality
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetId = btn.getAttribute('data-target');
+                
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(tc => tc.classList.remove('active'));
+
+                btn.classList.add('active');
+                document.getElementById(targetId).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

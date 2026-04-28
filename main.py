@@ -4,6 +4,7 @@ import uuid
 from typing import List, Dict, Any
 
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -13,6 +14,9 @@ from option import SimilarityChecker, ItemsNotFoundError
 from fastapi.responses import JSONResponse
 
 app = FastAPI(title="AI-word-scan API", version="1.0.0")
+
+# Custom UI Docs
+app.mount("/custom-docs", StaticFiles(directory="docs-site", html=True), name="custom-docs")
 
 # CORS sozlamalari
 app.add_middleware(
