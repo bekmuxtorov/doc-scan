@@ -206,7 +206,7 @@
     formData.append("s2", s2Text); // String matni
 
     try {
-        const response = await fetch("http://localhost:8000/analyze", {
+        const response = await fetch("https://scan.ekomplektasiya.uz/analyze", {
             method: "POST",
             body: formData,
         });
@@ -231,7 +231,7 @@
                             <button class="copy-btn">Nusxa olish</button>
                             <pre><code class="language-python">import requests
 
-url = "http://localhost:8000/analyze"
+url = "https://scan.ekomplektasiya.uz/analyze"
 file_path = "document.docx"
 s2_text = "1. M400 sement \n 2. Temir plita"
 
@@ -256,7 +256,7 @@ with open(file_path, "rb") as f:
                         <div class="code-wrapper">
                             <button class="copy-btn">Nusxa olish</button>
                             <pre><code class="language-bash">curl -X 'POST' \
-  'http://localhost:8000/analyze' \
+  'https://scan.ekomplektasiya.uz/analyze' \
   -H 'accept: application/json' \
   -H 'Content-Type: multipart/form-data' \
   -F 'file=@hujjat.docx;type=application/vnd.openxmlformats-officedocument.wordprocessingml.document' \
